@@ -1,0 +1,35 @@
+server:
+  port: 9099
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=//order/**
+        - id: PRODUCT-SERVICE
+          uri: lb://product-service
+          predicates:
+            - Path=//product/**
+        - id: PAYMENT-SERVICE
+          uri: lb://payment-service
+          predicates:
+            - Path=//payment/**
+
+okta:
+  oauth2:
+    issuer: https://dev-89028115.okta.com/oauth2/default
+    audience: api://default
+    client-id: 0oadv35960xrTnJ3O5d7
+    client-secret: y1t8Fy6vnTf-7zpvqMothhqLwJGVnG-M6TBdKEPHZldr2yo8hcbU1LET42kgAv4r
+    scopes: openid, profile, email, offline_access
